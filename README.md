@@ -1,0 +1,2 @@
+# Kazama
+Kazama C++ Library
