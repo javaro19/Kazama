@@ -1,3 +1,6 @@
+// Copyright (c) JavarOwO
+// SPDX-License-Identifier: MIT
+
 #include "utils.h"
 #include <iostream>
 #include <cstdlib>
@@ -25,8 +28,7 @@ namespace kazama {
 			FillConsoleOutputCharacter(h, ' ', info.dwSize.X * info.dwSize.Y, pos, &charsWritten);
 			FillConsoleOutputAttribute(h, info.wAttributes, info.dwSize.X * info.dwSize.Y, pos, &charsWritten);
 			SetConsoleCursorPosition(h, pos);
-		}
-		else {
+		} else {
 			std::cout << "\033[2J\033[H";
 		}
 #else
@@ -73,7 +75,9 @@ namespace kazama {
 	}
 
 	void input(std::string& s) {
-		input_clear();
+		if (std::cin.peek() == '\n') {
+			input_clear();
+		}
 		std::getline(std::cin, s);
 	}
 

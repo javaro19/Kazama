@@ -1,6 +1,8 @@
+// Copyright (c) JavarOwO
+// SPDX-License-Identifier: MIT
+
 #ifndef UTILS_H
 #define UTILS_H
-#include "utils.h"
 #include <iostream>
 #include <cstdlib>
 #include <chrono>
