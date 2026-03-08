@@ -6,8 +6,10 @@
 namespace kazama {
 
 	template<typename T, typename U>
-	inline constexpr T perc(T base, U pct) {
-		return (base * static_cast<T>(pct)) / T(100);
+	inline constexpr T perc(T x, U y) {
+		T abs_x = x < T(0) ? -x : x;
+		T abs_y = static_cast<T>(y) < T(0) ? -static_cast<T>(y) : static_cast<T>(y);
+		return (abs_x * abs_y) / T(100);
 	}
 
 	template<typename T>
