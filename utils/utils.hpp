@@ -10,9 +10,9 @@
 #include <limits>
 #include <random>
 #include <ctime>
+#include <cctype>
 #ifdef _WIN32
 #include <windows.h>
-#undef max
 #endif
 
 namespace kazama {
@@ -48,7 +48,9 @@ namespace kazama {
 
     inline void input_clear() {
         std::cin.clear();
-        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+        if (std::cin.rdbuf()->in_avail() > 0) {
+            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+        }
     }
 
     inline int random(int x, int y) {
