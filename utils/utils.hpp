@@ -12,7 +12,7 @@
 #include <ctime>
 #include <cctype>
 #ifdef _WIN32
-#include <windows.h>
+#   include <windows.h>
 #endif
 
 namespace kazama {
@@ -24,17 +24,19 @@ namespace kazama {
         CONSOLE_SCREEN_BUFFER_INFO info;
         if (GetConsoleScreenBufferInfo(h, &info)) {
             DWORD charsWritten;
-            COORD pos = { 0,0 };
             DWORD size = info.dwSize.X * info.dwSize.Y;
+            COORD pos = { 0,0 };
             FillConsoleOutputCharacter(h, ' ', size, pos, &charsWritten);
             FillConsoleOutputAttribute(h, info.wAttributes, size, pos, &charsWritten);
             SetConsoleCursorPosition(h, pos);
         }
         else {
             std::cout << "\033[2J\033[H";
+            std::cout.flush();
         }
 #else
         std::cout << "\033[2J\033[H";
+        std::cout.flush();
 #endif
     }
 
