@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
+
 #include <iostream>
 #include <cstdlib>
 #include <chrono>
@@ -11,6 +12,7 @@
 #include <random>
 #include <ctime>
 #include <cctype>
+
 #ifdef _WIN32
 #   include <windows.h>
 #endif
