@@ -4,13 +4,11 @@
 #pragma once
 
 #include <iostream>
-#include <cstdlib>
 #include <chrono>
 #include <thread>
 #include <string>
 #include <limits>
 #include <random>
-#include <ctime>
 #include <cctype>
 
 #ifdef _WIN32
@@ -18,6 +16,10 @@
 #endif
 
 namespace kazama {
+
+    namespace {
+        std::mt19937 gen(std::random_device{}());
+    }
 
     inline void console_clear() {
         std::cout.flush();
@@ -57,22 +59,19 @@ namespace kazama {
         }
     }
 
-    inline int irandom(int x, int y) {
-        static std::mt19937 gen(std::random_device{}());
+    [[nodiscard]] inline int irandom(int x, int y) {
         std::uniform_int_distribution<> disc(x, y);
         return disc(gen);
     }
 
-    inline double frandom(double x, double y) {
-        static std::mt19937 gen(std::random_device{}());
+    [[nodiscard]] inline double frandom(double x, double y) {
         std::uniform_real_distribution<> disc(x, y);
         return disc(gen);
     }
 
     inline void windows_default(const std::string& title) {
 #ifdef _WIN32
-        std::wstring wtitle(title.begin(), title.end());
-        SetConsoleTitleW(wtitle.c_str());
+        SetConsoleTitleW(std::wstring(title.begin(), title.end()).c_str());
         SetConsoleOutputCP(CP_UTF8);
         SetConsoleCP(CP_UTF8);
 #endif
