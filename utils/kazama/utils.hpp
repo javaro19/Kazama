@@ -10,6 +10,7 @@
 #include <limits>
 #include <random>
 #include <cctype>
+#include <cassert>
 
 #ifdef _WIN32
 #   include <windows.h>
@@ -60,11 +61,13 @@ namespace kazama {
     }
 
     [[nodiscard]] inline int irandom(int x, int y) {
+        assert(x <= y);
         std::uniform_int_distribution<> disc(x, y);
         return disc(gen);
     }
 
     [[nodiscard]] inline double frandom(double x, double y) {
+        assert(x <= y);
         std::uniform_real_distribution<> disc(x, y);
         return disc(gen);
     }
