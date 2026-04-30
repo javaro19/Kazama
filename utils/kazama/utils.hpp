@@ -11,6 +11,7 @@
 #include <random>
 #include <cctype>
 #include <cassert>
+#include <ios>
 
 #ifdef _WIN32
 #   include <windows.h>
@@ -18,8 +19,18 @@
 
 namespace kazama {
 
-    namespace {
+    namespace detail {
         std::mt19937 gen(std::random_device{}());
+
+        inline bool is_x(const std::string& s, int(*pred)(int)) {
+            if (s.empty()) return false;
+
+            for (const auto& c : s) {
+                if (!pred(static_cast<unsigned char>(c))) return false;
+            }
+
+            return true;
+        }
     }
 
     inline void console_clear() {
@@ -62,14 +73,14 @@ namespace kazama {
 
     [[nodiscard]] inline int irandom(int x, int y) {
         assert(x <= y);
-        std::uniform_int_distribution<> disc(x, y);
-        return disc(gen);
+        std::uniform_int_distribution<> dist(x, y);
+        return dist(detail::gen);
     }
 
     [[nodiscard]] inline double frandom(double x, double y) {
         assert(x <= y);
-        std::uniform_real_distribution<> disc(x, y);
-        return disc(gen);
+        std::uniform_real_distribution<> dist(x, y);
+        return dist(detail::gen);
     }
 
     inline void windows_default(const std::string& title) {
@@ -95,4 +106,12 @@ namespace kazama {
     inline void input(std::string& s) {
         std::getline(std::cin >> std::ws, s);
     }
+
+    [[nodiscard]] inline bool is_alpha(const std::string& s) { return detail::is_x(s, std::isalpha); }
+    [[nodiscard]] inline bool is_punct(const std::string& s) { return detail::is_x(s, std::ispunct); }
+    [[nodiscard]] inline bool is_digit(const std::string& s) { return detail::is_x(s, std::isdigit); }
+    [[nodiscard]] inline bool is_lower(const std::string& s) { return detail::is_x(s, std::islower); }
+    [[nodiscard]] inline bool is_upper(const std::string& s) { return detail::is_x(s, std::isupper); }
+    [[nodiscard]] inline bool is_space(const std::string& s) { return detail::is_x(s, std::isspace); }
+    [[nodiscard]] inline bool is_alnum(const std::string& s) { return detail::is_x(s, std::isalnum); }
 }
