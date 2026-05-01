@@ -107,7 +107,7 @@ Kazama is **header-only** - just copy the needed files to your project:
 
 ```
 your-project/
-├── include/
+├── kazama/
 │   ├── math.hpp
 │   └── utils.hpp
 └── main.cpp
@@ -130,8 +130,8 @@ cl /std:c++17 main.cpp
 ## 💡 Usage example
 
 ```cpp
-#include "math.hpp"
-#include "utils.hpp"
+#include "kazama/math.hpp"
+#include "kazama/utils.hpp"
 
 int main() {
     // Console setup (Windows)
