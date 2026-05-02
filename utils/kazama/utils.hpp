@@ -12,6 +12,7 @@
 #include <cctype>
 #include <cassert>
 #include <ios>
+#include <alhorithm>
 
 #ifdef _WIN32
 #   include <windows.h>
@@ -114,4 +115,18 @@ namespace kazama {
     [[nodiscard]] inline bool is_upper(const std::string& s) { return detail::is_x(s, std::isupper); }
     [[nodiscard]] inline bool is_space(const std::string& s) { return detail::is_x(s, std::isspace); }
     [[nodiscard]] inline bool is_alnum(const std::string& s) { return detail::is_x(s, std::isalnum); }
+
+    inline void trim(std::string& s) {
+        auto not_space = [](unsigned char c) {return !isspace(c); };
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), not_space));
+        s.erase(std::find_if(s.rbegin(), s.rend(), not_space).base(), s.end());
+    }
+
+    [[nodiscard]] inline std::string prompt(const std::string& question) {
+        std::string answer;
+        std::cout << question;
+        std::getline(std::cin, answer);
+        trim(answer);
+        return answer;
+    }
 }
