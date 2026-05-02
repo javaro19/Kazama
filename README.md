@@ -45,7 +45,7 @@ Mathematical functions available at compile time (`constexpr`).
 | `kazama::quad(a, b, c)` | Discriminant of quadratic equation - `b² - 4ac`. |
 
 ```cpp
-auto discount    = kazama::perc(200.0, 15);       // 15% of 200 → 30.0
+auto discount     = kazama::perc(200.0, 15);       // 15% of 200 → 30.0
 auto discriminant = kazama::quad(1.0, -3.0, 2.0);  // (-3)² - 4·1·2 = 1
 ```
 
@@ -75,6 +75,8 @@ Useful functions for console handling, input, randomness, and strings.
 |--------|------|
 | `kazama::input(s)` | Reads entire line from `stdin`, skipping leading whitespace. |
 | `kazama::input_clear()` | Clears input buffer after failed read. |
+| `kazama::trim(s)` | Removes leading and trailing whitespace from a string (in-place). |
+| `kazama::prompt(question)` | Prints a question, reads a line from `stdin` and returns it trimmed. |
 
 #### 🎲 Randomness
 
@@ -139,8 +141,7 @@ int main() {
     kazama::console_clear();
 
     // Read name
-    std::string name;
-    kazama::input(name);
+    std::string name = kazama::prompt("Enter your name: ");
     kazama::to_lower(name);
 
     if (!kazama::is_alpha(name)) {
@@ -149,8 +150,8 @@ int main() {
     }
 
     // Generate random number and calculate percentage
-    int result   = kazama::irandom(1, 100);
-    double threshold = kazama::perc(result, 20); // 20% of result
+    int result        = kazama::irandom(1, 100);
+    double threshold  = kazama::perc(result, 20); // 20% of result
 
     kazama::wait_ms(500);
     return 0;
