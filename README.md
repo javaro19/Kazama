@@ -60,7 +60,7 @@ Useful functions for console handling, input, randomness, and strings.
 | Function | Description |
 |--------|------|
 | `kazama::console_clear()` | Clears the terminal. Uses native Win32 API on Windows, ANSI on others. |
-| `kazama::windows_default(title)` | Sets console window title and enables UTF-8 (Windows only). |
+| `kazama::console_setup(title)` | Sets console title and enables UTF-8 (Windows), sets terminal title (others). |
 
 #### ⏱️ Time
 
@@ -74,7 +74,7 @@ Useful functions for console handling, input, randomness, and strings.
 | Function | Description |
 |--------|------|
 | `kazama::input(s)` | Reads entire line from `stdin`, skipping leading whitespace. |
-| `kazama::input_clear()` | Clears input buffer after failed read. |
+| `kazama::input_clear()` | Clears the input buffer after read. |
 | `kazama::trim(s)` | Removes leading and trailing whitespace from a string (in-place). |
 | `kazama::prompt(question)` | Prints a question, reads a line from `stdin` and returns it trimmed. |
 
@@ -136,8 +136,8 @@ cl /std:c++17 main.cpp
 #include "kazama/utils.hpp"
 
 int main() {
-    // Console setup (Windows)
-    kazama::windows_default("My Application");
+    // Console setup
+    kazama::console_setup("My Application");
     kazama::console_clear();
 
     // Read name
