@@ -66,7 +66,7 @@ Useful functions for console handling, input, randomness, and strings.
 
 | Function | Description |
 |--------|------|
-| `kazama::wait_s(sec)` | Pauses execution for the specified number of seconds. |
+| `kazama::wait_s(s)` | Pauses execution for the specified number of seconds. |
 | `kazama::wait_ms(ms)` | Pauses execution for the specified number of milliseconds. |
 
 #### ⌨️ Input
