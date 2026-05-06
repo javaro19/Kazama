@@ -59,11 +59,11 @@ namespace kazama {
     }
 
     inline void wait_s(int s) {
-        std::this_thread::sleep_for(std::chrono::seconds(sec));
+        std::this_thread::sleep_for(std::chrono::seconds(s));
     }
 
     inline void wait_ms(int ms) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(millisec));
+        std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     }
 
     inline void input_clear() {
