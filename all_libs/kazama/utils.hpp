@@ -12,7 +12,8 @@
 #include <cctype>
 #include <cassert>
 #include <ios>
-#include <alhorithm>
+#include <algorithm>
+#include <cstdio>
 
 #ifdef _WIN32
 #   include <windows.h>
@@ -67,9 +68,8 @@ namespace kazama {
 
     inline void input_clear() {
         std::cin.clear();
-        if (std::cin.rdbuf()->in_avail() > 0) {
-            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-        }
+        if (std::cin.peek() == '\n' || std::cin.peek() == EOF) std::cin.ignore();
+        else std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
     }
 
     [[nodiscard]] inline int irandom(int x, int y) {
@@ -84,11 +84,24 @@ namespace kazama {
         return dist(detail::gen);
     }
 
-    inline void windows_default(const std::string& title) {
+    inline void trim(std::string& s) {
+        auto not_space = [](unsigned char c) {return !isspace(c); };
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), not_space));
+        s.erase(std::find_if(s.rbegin(), s.rend(), not_space).base(), s.end());
+    }
+
+    inline void console_setup(const std::string& title) {
+        std::string t = title;
+        trim(t);
+        if (t.empty()) t = "App";
+
 #ifdef _WIN32
-        SetConsoleTitleW(std::wstring(title.begin(), title.end()).c_str());
+        SetConsoleTitleW(std::wstring(t.begin(), t.end()).c_str());
         SetConsoleOutputCP(CP_UTF8);
         SetConsoleCP(CP_UTF8);
+#else
+        std::cout << "\033]0;" << t << "\077";
+        std::cout.flush();
 #endif
     }
 
@@ -115,12 +128,6 @@ namespace kazama {
     [[nodiscard]] inline bool is_upper(const std::string& s) { return detail::is_x(s, std::isupper); }
     [[nodiscard]] inline bool is_space(const std::string& s) { return detail::is_x(s, std::isspace); }
     [[nodiscard]] inline bool is_alnum(const std::string& s) { return detail::is_x(s, std::isalnum); }
-
-    inline void trim(std::string& s) {
-        auto not_space = [](unsigned char c) {return !isspace(c); };
-        s.erase(s.begin(), std::find_if(s.begin(), s.end(), not_space));
-        s.erase(std::find_if(s.rbegin(), s.rend(), not_space).base(), s.end());
-    }
 
     [[nodiscard]] inline std::string prompt(const std::string& question) {
         std::string answer;
