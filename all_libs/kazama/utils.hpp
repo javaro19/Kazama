@@ -24,7 +24,8 @@ namespace kazama {
     namespace detail {
         std::mt19937 gen(std::random_device{}());
 
-        inline bool is_x(const std::string& s, int(*pred)(int)) {
+        template <typename Pred>
+        inline bool is_x(const std::string& s, Pred pred) {
             if (s.empty()) return false;
 
             for (const auto& c : s) {
@@ -46,14 +47,15 @@ namespace kazama {
             COORD pos = { 0,0 };
             FillConsoleOutputCharacter(h, ' ', size, pos, &charsWritten);
             FillConsoleOutputAttribute(h, info.wAttributes, size, pos, &charsWritten);
+            SetConsoleTextAttribute(h, info.wAttributes);
             SetConsoleCursorPosition(h, pos);
         }
         else {
-            std::cout << "\033[2J\033[H";
+            std::cout << "\033[0m\033[2J\033[H";
             std::cout.flush();
         }
 #else
-        std::cout << "\033[2J\033[H";
+        std::cout << "\033[0m\033[2J\033[H";
         std::cout.flush();
 #endif
     }
