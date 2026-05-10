@@ -102,7 +102,7 @@ namespace kazama {
         SetConsoleOutputCP(CP_UTF8);
         SetConsoleCP(CP_UTF8);
 #else
-        std::cout << "\033]0;" << t << "\077";
+        std::cout << "\033]0;" << t << "\007";
         std::cout.flush();
 #endif
     }
