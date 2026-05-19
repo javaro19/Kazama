@@ -1,4 +1,4 @@
-// Copyright (c) JavarOwO
+// Copyright (c) Lumi
 // SPDX-License-Identifier: MIT
 
 #pragma once
