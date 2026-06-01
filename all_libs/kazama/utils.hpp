@@ -14,6 +14,8 @@
 #include <ios>
 #include <algorithm>
 #include <cstdio>
+#include <cstddef>
+#include <stdexcept>
 
 #ifdef _WIN32
 #   include <windows.h>
@@ -22,7 +24,7 @@
 namespace kazama {
 
     namespace detail {
-        std::mt19937 gen(std::random_device{}());
+        inline std::mt19937 gen(std::random_device{}());
 
         template <typename Pred>
         inline bool is_x(const std::string& s, Pred pred) {
@@ -76,18 +78,22 @@ namespace kazama {
 
     [[nodiscard]] inline int irandom(int x, int y) {
         assert(x <= y);
+        if (x > y) throw std::invalid_argument("x is greater than y!");
+
         std::uniform_int_distribution<> dist(x, y);
         return dist(detail::gen);
     }
 
     [[nodiscard]] inline double frandom(double x, double y) {
         assert(x <= y);
+        if (x > y) throw std::invalid_argument("x is greater than y!");
+
         std::uniform_real_distribution<> dist(x, y);
         return dist(detail::gen);
     }
 
     inline void trim(std::string& s) {
-        auto not_space = [](unsigned char c) {return !isspace(c); };
+        auto not_space = [](unsigned char c) { return !isspace(c); };
         s.erase(s.begin(), std::find_if(s.begin(), s.end(), not_space));
         s.erase(std::find_if(s.rbegin(), s.rend(), not_space).base(), s.end());
     }
@@ -95,7 +101,7 @@ namespace kazama {
     inline void console_setup(const std::string& title) {
         std::string t = title;
         trim(t);
-        if (t.empty()) t = "App";
+        if (t.empty()) throw std::invalid_argument("Title cannot be empty!");
 
 #ifdef _WIN32
         SetConsoleTitleW(std::wstring(t.begin(), t.end()).c_str());
@@ -119,8 +125,9 @@ namespace kazama {
         }
     }
 
-    inline void input(std::string& s) {
-        std::getline(std::cin >> std::ws, s);
+    inline void get() {
+        std::string dummy;
+        std::getline(std::cin, dummy);
     }
 
     [[nodiscard]] inline bool is_alpha(const std::string& s) { return detail::is_x(s, std::isalpha); }
@@ -137,5 +144,15 @@ namespace kazama {
         std::getline(std::cin, answer);
         trim(answer);
         return answer;
+    }
+
+    [[nodiscard]] inline size_t count_chars(const std::string& s) {
+        size_t chars = 0;
+
+        for (unsigned char c : s) {
+            if ((c & 0xC0) != 0x80) ++chars;
+        }
+
+        return chars;
     }
 }
