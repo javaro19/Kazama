@@ -16,6 +16,8 @@
 #include <cstdio>
 #include <cstddef>
 #include <stdexcept>
+#include <vector>
+#include <memory>
 
 #ifdef _WIN32
 #   include <windows.h>
@@ -130,13 +132,13 @@ namespace kazama {
         std::getline(std::cin, dummy);
     }
 
-    [[nodiscard]] inline bool is_alpha(const std::string& s) { return detail::is_x(s, std::isalpha); }
-    [[nodiscard]] inline bool is_punct(const std::string& s) { return detail::is_x(s, std::ispunct); }
-    [[nodiscard]] inline bool is_digit(const std::string& s) { return detail::is_x(s, std::isdigit); }
-    [[nodiscard]] inline bool is_lower(const std::string& s) { return detail::is_x(s, std::islower); }
-    [[nodiscard]] inline bool is_upper(const std::string& s) { return detail::is_x(s, std::isupper); }
-    [[nodiscard]] inline bool is_space(const std::string& s) { return detail::is_x(s, std::isspace); }
-    [[nodiscard]] inline bool is_alnum(const std::string& s) { return detail::is_x(s, std::isalnum); }
+    [[nodiscard]] inline bool is_alpha(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::isalpha(c); }); }
+    [[nodiscard]] inline bool is_punct(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::ispunct(c); }); }
+    [[nodiscard]] inline bool is_digit(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::isdigit(c); }); }
+    [[nodiscard]] inline bool is_lower(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::islower(c); }); }
+    [[nodiscard]] inline bool is_upper(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::isupper(c); }); }
+    [[nodiscard]] inline bool is_space(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::isspace(c); }); }
+    [[nodiscard]] inline bool is_alnum(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::isalnum(c); }); }
 
     [[nodiscard]] inline std::string prompt(const std::string& question) {
         std::string answer;
