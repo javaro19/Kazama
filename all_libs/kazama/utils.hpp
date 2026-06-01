@@ -16,8 +16,6 @@
 #include <cstdio>
 #include <cstddef>
 #include <stdexcept>
-#include <vector>
-#include <memory>
 
 #ifdef _WIN32
 #   include <windows.h>
