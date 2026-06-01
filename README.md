@@ -73,10 +73,10 @@ Useful functions for console handling, input, randomness, and strings.
 
 | Function | Description |
 |--------|------|
-| `kazama::input(s)` | Reads entire line from `stdin`, skipping leading whitespace. |
 | `kazama::input_clear()` | Clears the input buffer after read. |
 | `kazama::trim(s)` | Removes leading and trailing whitespace from a string (in-place). |
 | `kazama::prompt(question)` | Prints a question, reads a line from `stdin` and returns it trimmed. |
+| `kazama::get()` | Reads and discards one line from `stdin`. |
 
 #### 🎲 Randomness
 
@@ -93,6 +93,7 @@ Useful functions for console handling, input, randomness, and strings.
 |--------|------|
 | `kazama::to_lower(s)` | Converts string to lowercase (in-place). |
 | `kazama::to_upper(s)` | Converts string to uppercase (in-place). |
+| `kazama::count_chars(s)` | Returns the number of Unicode characters in a UTF-8 string. |
 | `kazama::is_alpha(s)` | Checks if every character is a letter. |
 | `kazama::is_digit(s)` | Checks if every character is a digit. |
 | `kazama::is_alnum(s)` | Checks if every character is a letter or digit. |
@@ -148,6 +149,10 @@ int main() {
         // Name contains invalid characters
         return 1;
     }
+
+    // Count Unicode characters
+    std::string text = "Zażółć gęślą jaźń";
+    std::size_t len  = kazama::count_chars(text);
 
     // Generate random number and calculate percentage
     int result        = kazama::irandom(1, 100);
