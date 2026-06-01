@@ -13,7 +13,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-0078D6?style=for-the-badge&logo=windows&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Author-JavarOwO-ff6b6b?style=for-the-badge&logo=github&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Author-Lumi-ff6b6b?style=for-the-badge&logo=github&logoColor=white"/>
   <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge"/>
 </p>
 
@@ -182,7 +182,7 @@ constexpr       →  maximum work at compile time
 Project covered by **MIT** license - free for private and commercial use.
 
 ```
-Copyright (c) JavarOwO
+Copyright (c) Lumi
 ```
 
 Details in [LICENSE](LICENSE) file.
@@ -191,6 +191,6 @@ Details in [LICENSE](LICENSE) file.
 
 <div align="center">
 
-*Created by JavarOwO*
+*Created by Lumi*
 
 </div>
