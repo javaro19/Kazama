@@ -80,7 +80,7 @@ namespace kazama {
         assert(x <= y);
         if (x > y) throw std::invalid_argument("x is greater than y!");
 
-        std::uniform_int_distribution<> dist(x, y);
+        std::uniform_int_distribution<int> dist(x, y);
         return dist(detail::gen);
     }
 
@@ -88,7 +88,7 @@ namespace kazama {
         assert(x <= y);
         if (x > y) throw std::invalid_argument("x is greater than y!");
 
-        std::uniform_real_distribution<> dist(x, y);
+        std::uniform_real_distribution<double> dist(x, y);
         return dist(detail::gen);
     }
 
