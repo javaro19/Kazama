@@ -149,7 +149,7 @@ namespace kazama {
     [[nodiscard]] inline size_t count_chars(const std::string& s) {
         size_t chars = 0;
 
-        for (unsigned char c : s) {
+        for (const unsigned char c : s) {
             if ((c & 0xC0) != 0x80) ++chars;
         }
 
