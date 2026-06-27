@@ -93,7 +93,7 @@ namespace kazama {
     }
 
     inline void trim(std::string& s) {
-        auto not_space = [](unsigned char c) { return !isspace(c); };
+        auto not_space = [](unsigned char c) { return !std::isspace(c); };
         s.erase(s.begin(), std::find_if(s.begin(), s.end(), not_space));
         s.erase(std::find_if(s.rbegin(), s.rend(), not_space).base(), s.end());
     }
