@@ -1,4 +1,4 @@
-// Copyright (c) Lumi
+// Copyright (c) Mela
 // SPDX-License-Identifier: MIT
 
 #pragma once
