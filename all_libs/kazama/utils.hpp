@@ -16,6 +16,7 @@
 #include <cstdio>
 #include <cstddef>
 #include <stdexcept>
+#include <string_view>
 
 #ifdef _WIN32
 #   include <windows.h>
@@ -27,7 +28,7 @@ namespace kazama {
         inline std::mt19937 gen(std::random_device{}());
 
         template <typename Pred>
-        inline bool is_x(const std::string& s, Pred pred) {
+        inline bool is_x(std::string_view s, Pred pred) {
             if (s.empty()) return false;
 
             for (const auto& c : s) {
@@ -44,11 +45,11 @@ namespace kazama {
         HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
         CONSOLE_SCREEN_BUFFER_INFO info;
         if (GetConsoleScreenBufferInfo(h, &info)) {
-            DWORD charsWritten;
+            DWORD chars_written;
             DWORD size = info.dwSize.X * info.dwSize.Y;
             COORD pos = { 0,0 };
-            FillConsoleOutputCharacter(h, ' ', size, pos, &charsWritten);
-            FillConsoleOutputAttribute(h, info.wAttributes, size, pos, &charsWritten);
+            FillConsoleOutputCharacter(h, ' ', size, pos, &chars_written);
+            FillConsoleOutputAttribute(h, info.wAttributes, size, pos, &chars_written);
             SetConsoleTextAttribute(h, info.wAttributes);
             SetConsoleCursorPosition(h, pos);
         }
@@ -72,13 +73,19 @@ namespace kazama {
 
     inline void input_clear() {
         std::cin.clear();
-        if (std::cin.peek() == '\n' || std::cin.peek() == EOF) std::cin.ignore();
-        else std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+        if (std::cin.peek() == EOF || std::cin.peek() == '\n') {
+            std::cin.ignore();
+        }
+        else {
+            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+        }
     }
 
     [[nodiscard]] inline int irandom(int x, int y) {
         assert(x <= y);
-        if (x > y) throw std::invalid_argument("x is greater than y!");
+        if (x > y) {
+            throw std::invalid_argument("x is greater than y!");
+        }
 
         std::uniform_int_distribution<int> dist(x, y);
         return dist(detail::gen);
@@ -86,7 +93,9 @@ namespace kazama {
 
     [[nodiscard]] inline double frandom(double x, double y) {
         assert(x <= y);
-        if (x > y) throw std::invalid_argument("x is greater than y!");
+        if (x > y) {
+            throw std::invalid_argument("x is greater than y!");
+        }
 
         std::uniform_real_distribution<double> dist(x, y);
         return dist(detail::gen);
@@ -98,10 +107,12 @@ namespace kazama {
         s.erase(std::find_if(s.rbegin(), s.rend(), not_space).base(), s.end());
     }
 
-    inline void console_setup(const std::string& title) {
-        std::string t = title;
+    inline void console_setup(std::string_view title) {
+        std::string t{ title };
         trim(t);
-        if (t.empty()) throw std::invalid_argument("Title cannot be empty!");
+        if (t.empty()) {
+            throw std::invalid_argument("Title cannot be empty!");
+        }
 
 #ifdef _WIN32
         SetConsoleTitleW(std::wstring(t.begin(), t.end()).c_str());
@@ -126,28 +137,28 @@ namespace kazama {
     }
 
     inline void get() {
-        std::string dummy;
+        std::string dummy{};
         std::getline(std::cin, dummy);
     }
 
-    [[nodiscard]] inline bool is_alpha(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::isalpha(c); }); }
-    [[nodiscard]] inline bool is_punct(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::ispunct(c); }); }
-    [[nodiscard]] inline bool is_digit(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::isdigit(c); }); }
-    [[nodiscard]] inline bool is_lower(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::islower(c); }); }
-    [[nodiscard]] inline bool is_upper(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::isupper(c); }); }
-    [[nodiscard]] inline bool is_space(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::isspace(c); }); }
-    [[nodiscard]] inline bool is_alnum(const std::string& s) { return detail::is_x(s, [](unsigned char c) { return std::isalnum(c); }); }
+    [[nodiscard]] inline bool is_alpha(std::string_view s) { return detail::is_x(s, [](unsigned char c) { return std::isalpha(c); }); }
+    [[nodiscard]] inline bool is_punct(std::string_view s) { return detail::is_x(s, [](unsigned char c) { return std::ispunct(c); }); }
+    [[nodiscard]] inline bool is_digit(std::string_view s) { return detail::is_x(s, [](unsigned char c) { return std::isdigit(c); }); }
+    [[nodiscard]] inline bool is_lower(std::string_view s) { return detail::is_x(s, [](unsigned char c) { return std::islower(c); }); }
+    [[nodiscard]] inline bool is_upper(std::string_view s) { return detail::is_x(s, [](unsigned char c) { return std::isupper(c); }); }
+    [[nodiscard]] inline bool is_space(std::string_view s) { return detail::is_x(s, [](unsigned char c) { return std::isspace(c); }); }
+    [[nodiscard]] inline bool is_alnum(std::string_view s) { return detail::is_x(s, [](unsigned char c) { return std::isalnum(c); }); }
 
-    [[nodiscard]] inline std::string prompt(const std::string& question) {
-        std::string answer;
+    [[nodiscard]] inline std::string prompt(std::string_view question) {
+        std::string answer{};
         std::cout << question;
         std::getline(std::cin, answer);
         trim(answer);
         return answer;
     }
 
-    [[nodiscard]] inline size_t count_chars(const std::string& s) {
-        size_t chars = 0;
+    [[nodiscard]] inline size_t count_chars(std::string_view s) {
+        size_t chars{ 0 };
 
         for (const unsigned char c : s) {
             if ((c & 0xC0) != 0x80) ++chars;
