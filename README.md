@@ -4,18 +4,14 @@
 
 ### Lightweight, header-only utility library for C++
 
-<p align="center">
-  <img src="https://img.shields.io/badge/C%2B%2B-17%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white"/>
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge&logo=opensourceinitiative&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Header--Only-Yes-blueviolet?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Dependencies-None-ff69b4?style=for-the-badge"/>
-</p>
+![C++23+](https://img.shields.io/badge/C%2B%2B-23%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge&logo=opensourceinitiative&logoColor=white)
+![Header-Only](https://img.shields.io/badge/Header--Only-Yes-blueviolet?style=for-the-badge)
+![Dependencies](https://img.shields.io/badge/Dependencies-None-ff69b4?style=for-the-badge)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-0078D6?style=for-the-badge&logo=windows&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Author-Mela-ff6b6b?style=for-the-badge&logo=github&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge"/>
-</p>
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+![Author](https://img.shields.io/badge/Author-Mela-ff6b6b?style=for-the-badge&logo=github&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
 
 ***
 
