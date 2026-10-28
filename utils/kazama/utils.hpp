@@ -17,6 +17,8 @@
 #include <cstddef>
 #include <stdexcept>
 #include <string_view>
+#include <ranges>
+#include <print>
 
 #ifdef _WIN32
 #   include <windows.h>
@@ -29,7 +31,9 @@ namespace kazama {
 
         template <typename Pred>
         inline bool is_x(std::string_view s, Pred pred) {
-            if (s.empty()) return false;
+            if (s.empty()) {
+                return false;
+            }
 
             for (const auto& c : s) {
                 if (!pred(static_cast<unsigned char>(c))) return false;
@@ -40,27 +44,23 @@ namespace kazama {
     }
 
     inline void console_clear() {
-        std::cout.flush();
+        std::fflush(stdout);
 #ifdef _WIN32
-        HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-        CONSOLE_SCREEN_BUFFER_INFO info;
+        HANDLE h{ GetStdHandle(STD_OUTPUT_HANDLE) };
+        CONSOLE_SCREEN_BUFFER_INFO info{};
         if (GetConsoleScreenBufferInfo(h, &info)) {
-            DWORD chars_written;
-            DWORD size = info.dwSize.X * info.dwSize.Y;
-            COORD pos = { 0,0 };
+            DWORD chars_written{};
+            DWORD size{ static_cast<DWORD>((info.srWindow.Right - info.srWindow.Left + 1) * (info.srWindow.Bottom - info.srWindow.Top + 1)) };
+            COORD pos{ 0,0 };
             FillConsoleOutputCharacter(h, ' ', size, pos, &chars_written);
             FillConsoleOutputAttribute(h, info.wAttributes, size, pos, &chars_written);
             SetConsoleTextAttribute(h, info.wAttributes);
             SetConsoleCursorPosition(h, pos);
+            return;
         }
-        else {
-            std::cout << "\033[0m\033[2J\033[H";
-            std::cout.flush();
-        }
-#else
-        std::cout << "\033[0m\033[2J\033[H";
-        std::cout.flush();
 #endif
+        std::print("\033[0m\033[2J\033[H");
+        std::fflush(stdout);
     }
 
     inline void wait_s(int s) {
@@ -102,9 +102,10 @@ namespace kazama {
     }
 
     inline void trim(std::string& s) {
-        auto not_space = [](unsigned char c) { return !std::isspace(c); };
-        s.erase(s.begin(), std::find_if(s.begin(), s.end(), not_space));
-        s.erase(std::find_if(s.rbegin(), s.rend(), not_space).base(), s.end());
+        auto not_space{ [](unsigned char c) { return !std::isspace(c); } };
+        s.erase(s.begin(), std::ranges::find_if(s, not_space));
+        auto last_non_space{ std::ranges::find_if(s | std::views::reverse, not_space) };
+        s.erase(last_non_space.base(), s.end());
     }
 
     inline void console_setup(std::string_view title) {
@@ -119,8 +120,8 @@ namespace kazama {
         SetConsoleOutputCP(CP_UTF8);
         SetConsoleCP(CP_UTF8);
 #else
-        std::cout << "\033]0;" << t << "\007";
-        std::cout.flush();
+        std::print("\033]0;{}\007", t);
+        std::fflush(stdout);
 #endif
     }
 
@@ -151,7 +152,7 @@ namespace kazama {
 
     [[nodiscard]] inline std::string prompt(std::string_view question) {
         std::string answer{};
-        std::cout << question;
+        std::print("{}", question);
         std::getline(std::cin, answer);
         trim(answer);
         return answer;
