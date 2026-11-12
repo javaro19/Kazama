@@ -116,13 +116,13 @@ Then compile normally:
 
 ```bash
 # GCC / Clang
-g++ -std=c++17 main.cpp -o app
+g++ -std=c++23 main.cpp -o app
 
 # MSVC
-cl /std:c++17 main.cpp
+cl /std:c++23 main.cpp
 ```
 
-> ⚠️ **C++17** or newer required.
+> ⚠️ **C++23** or newer required.
 
 ***
 
